@@ -14,6 +14,11 @@
             ExpressionPosition = expressionPosition;
         }
         
+        /// <summary>
+        /// Ignores ExpressionPosition property
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object? obj)
         {
             if (base.Equals(obj)) return true;
@@ -24,8 +29,7 @@
         
             if (this.SepType != other.SepType) return false;
             if (this.IsClosingSep != other.IsClosingSep) return false;
-            if (this.ExpressionPosition != other.ExpressionPosition) return false;
-        
+
             return true;
         }
         

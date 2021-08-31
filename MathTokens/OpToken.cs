@@ -12,6 +12,11 @@
             ExpressionPosition = expressionPosition;
         }
         
+        /// <summary>
+        /// Ignores ExpressionPosition property
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object? obj)
         {
             if (base.Equals(obj)) return true;
@@ -21,8 +26,7 @@
             if (other == null) return false;
         
             if (this.OpType != other.OpType) return false;
-            if (this.ExpressionPosition != other.ExpressionPosition) return false;
-        
+
             return true;
         }
         

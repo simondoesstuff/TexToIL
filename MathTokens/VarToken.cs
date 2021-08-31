@@ -17,6 +17,11 @@ namespace LatexProcessing
             ExpressionPosition = expressionPosition;
         }
         
+        /// <summary>
+        /// Ignores ExpressionPosition property
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object? obj)
         {
             if (base.Equals(obj)) return true;
@@ -27,8 +32,7 @@ namespace LatexProcessing
         
             if (this.Name != other.Name) return false;
             if (this.TokenType != other.TokenType) return false;
-            if (this.ExpressionPosition != other.ExpressionPosition) return false;
-        
+
             return true;
         }
         
