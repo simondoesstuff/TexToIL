@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Linq.Expressions;
+using LatexProcessing.LatexMathParser;
 
 namespace LatexProcessing
 {
     public class Program
     {
-        public void Main()
+        public void FullTest()
         {
             // var testExp = @"-\left(5+3\right)-40\pi n+3x\left(2--3\right)^{-4\left(1+5x\right)}-5\frac{1}{x}";
             // var testExp = @"-\left(5+3\right)-40\pi n+3x\left(2-3\right)^{-4\left(1+5x\right)}-5\frac{1}{x}";
@@ -52,7 +53,7 @@ namespace LatexProcessing
             Console.Out.WriteLine("result = {0}", result);
         }
 
-        public void Test()
+        public void ExpTreeTest()
         {
             var const5 = Expression.Constant(5D);
             var paramA = Expression.Parameter(typeof(double), "a");
@@ -67,10 +68,19 @@ namespace LatexProcessing
             Console.Out.WriteLine("result = {0}", result);
         }
 
+        public void LexerTest()
+        {
+            var lexer = Lexer.Inst;
+            
+            foreach (var token in lexer.Lex(@"P=a\cdot\left(b+1\right)+\sqrt{73\pi}"))
+                Console.Out.WriteLine("token: " + token);
+        }
+
         public static void Main(string[] args)
         {
-            new Program().Test();
-            // new Program().Main();
+            // new Program().ExpTreeTest();
+            // new Program().FullTest();
+            new Program().LexerTest();
         }
     }
 }
