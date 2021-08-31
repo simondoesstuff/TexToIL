@@ -1,6 +1,6 @@
 # LaTeX -> IL Code
 
-*LatexProcessing* is a parser for math expressions in LaTeX form with support for variables and trancendentals. Expressions are lexed, parsed, and assembled into native c# expression trees which compile to IL code. Compiled expression can be executed with differing variables successively and rapidly without reparsing the entire string.
+*LatexProcessing* is a parser for math expressions in LaTeX form with support for variables and trancendental functions. Expressions are lexed, parsed, and assembled into native c# expression trees which compile to IL code. Compiled expression can be executed with differing variables successively and rapidly without reparsing the entire string.
 
 # The Mission
 
