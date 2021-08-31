@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace LatexProcessing.LatexMathParser
@@ -11,8 +12,7 @@ namespace LatexProcessing.LatexMathParser
             var stream = Lexer.Inst.Lex(latexExpression);
             stream = _Filter(stream);
 
-            using var iter = stream.GetEnumerator();
-
+            var iter = stream.GetEnumerator();
             char? variableAssignId = null;
             
             if (iter.MoveNext())
@@ -22,7 +22,11 @@ namespace LatexProcessing.LatexMathParser
                 if (current.TokenType == MathTokenTypes.Assignment)
                     variableAssignId = ((AssignmentToken)current).Name;
                 else
-                    iter.Reset();   // if the first token was not a variable assign, reset iter and proceed normally
+                {
+                    // reset the iterator
+                    iter.Dispose();
+                    iter = stream.GetEnumerator();
+                }
             }
 
             return (_BuildTree(iter), variableAssignId);
@@ -57,13 +61,34 @@ namespace LatexProcessing.LatexMathParser
                 // handles double +/- ops
                 if (isAddOrSubOp(nextToken))
                 {
-                    if (collectedExtraneousSumOps)
+                    if (collectedExtraneousSumOps == -1)
+                    {
+                        // start collection
+
+                        // we count sub, we ignore add
+                        if (((OpToken)nextToken).OpType == MathOperatorTokenTypes.Sub)
+                            collectedExtraneousSumOps = 1;
+                        else collectedExtraneousSumOps = 0;
+
+                        previousToken = nextToken;  // previousToken now represents the first op collected
+                    }
+                    else
+                    {
+                        // sub increases, add is ignored
+                        if (((OpToken)nextToken).OpType == MathOperatorTokenTypes.Sub)
+                            collectedExtraneousSumOps++;
+                    }
                     
-                    
-                    continue;
+                    continue;   // absorb tokens until collecting process is over
                 } else if (collectedExtraneousSumOps != -1)
                 {
-                    // yield return %2
+                    // return collection
+
+                    yield return collectedExtraneousSumOps % 2 == 1
+                        ? new OpToken(MathOperatorTokenTypes.Sub, previousToken.ExpressionPosition)
+                        : new OpToken(MathOperatorTokenTypes.Add, previousToken.ExpressionPosition);
+
+                    collectedExtraneousSumOps = -1;
                 }
                 
                 // handles implied multiplication
@@ -85,9 +110,11 @@ namespace LatexProcessing.LatexMathParser
             while (stream.MoveNext())
             {
                 var nextToken = stream.Current;
-                
-                
+
+                Console.Out.WriteLine("nextToken = {0}", nextToken);
             }
+
+            return null;
         }
     }
 }
