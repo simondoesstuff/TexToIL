@@ -7,6 +7,7 @@ namespace LatexProcessing.LatexMathParser
     /// Singleton
     public class Lexer
     {
+        private Regex _reWhitespace = new Regex(@"^\s+");
         private Regex _reAssignment = new Regex(@"^([a-z])=");
         private Regex _reDelimiter = new Regex(@"^({|})");
         private Regex _reAdd = new Regex(@"^\+");
@@ -53,6 +54,13 @@ namespace LatexProcessing.LatexMathParser
         private IMathToken _LexOne(string latexExp, ref int stackPointer)
         {
             Match match;
+
+            match = _reWhitespace.Match(latexExp);
+            if (match.Success)
+            {
+                stackPointer += match.Length;
+                latexExp = latexExp[match.Length..];
+            }
 
             match = _reDelimiter.Match(latexExp);
             if (match.Success)
