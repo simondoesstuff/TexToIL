@@ -5,6 +5,7 @@
         Const,
         Op,
         Sep,
-        Var
+        Var,
+        Assignment
     }
 }

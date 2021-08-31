@@ -5,10 +5,20 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <AssemblyName>LatexProcessing</AssemblyName>
         <RootNamespace>LatexProcessing</RootNamespace>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
       <None Remove="LatexProcessing.csproj.DotSettings" />
+      <None Remove="ParsingAlgorithmV1\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="ParsingAlgorithmV1\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="ParsingAlgorithmV1\**" />
     </ItemGroup>
 
 </Project>

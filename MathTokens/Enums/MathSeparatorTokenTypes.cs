@@ -4,7 +4,6 @@
     {
         Parenthesis,
         AbsoluteValue,
-        Sin,
-        Cos
+        LatexDelimiter
     }
 }
