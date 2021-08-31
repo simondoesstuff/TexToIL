@@ -1,3 +1,7 @@
+# LaTeX -> IL Code
+
+*LatexProcessing* is a parser for math expressions in LaTeX form with support for variables and trancendentals. Expressions are lexed, parsed, and assembled into native c# expression trees which compile to IL code. Compiled expression can be executed with differing variables successively and rapidly without reparsing the entire string.
+
 # The Mission
 
 https://www.desmos.com/ is an online graphing calculator aimed to make *"math beautiful"*. Desmos depends on an excellent resource called **Math Quill** which allows users to easily type LaTeX math with their keyboard and render it in realtime. **The mission of this project** is to bring the beauty of desmos to procedural terrain generation.
