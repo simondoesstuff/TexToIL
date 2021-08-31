@@ -17,6 +17,21 @@ namespace LatexProcessing
             ExpressionPosition = expressionPosition;
         }
         
+        public override bool Equals(object? obj)
+        {
+            if (base.Equals(obj)) return true;
+            
+            var other = obj as VarToken;
+        
+            if (other == null) return false;
+        
+            if (this.Name != other.Name) return false;
+            if (this.TokenType != other.TokenType) return false;
+            if (this.ExpressionPosition != other.ExpressionPosition) return false;
+        
+            return true;
+        }
+        
         public override string ToString()
         {
             return $"(Var, '{Name}')";
