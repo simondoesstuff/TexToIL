@@ -28,14 +28,14 @@ namespace LatexProcessing
 
             if (token.TokenType == MathTokenTypes.Const)
             {
-                var exp = Expression.Constant(((MathConstToken)token).Value);
+                var exp = Expression.Constant(((ConstToken)token).Value);
                 _stack.Push(exp);
                 return;
             }
             
             if (token.TokenType == MathTokenTypes.Var)
             {
-                var varToken = ((MathVarToken)token);
+                var varToken = ((VarToken)token);
                 var exp = Expression.Parameter(typeof(double), varToken.Name.ToString());
                 _parameterExpressions.Add(exp);
                 _stack.Push(exp);
@@ -44,9 +44,9 @@ namespace LatexProcessing
 
             // handle operators
 
-            MathOpToken opToken;
+            OpToken opToken;
 
-            if (token.TokenType == MathTokenTypes.Op) opToken = (MathOpToken)token;
+            if (token.TokenType == MathTokenTypes.Op) opToken = (OpToken)token;
             else return;
 
             switch (opToken.OpType)
@@ -60,7 +60,7 @@ namespace LatexProcessing
                 case MathOperatorTokenTypes.Mult:
                     _HandleBinaryOps(Expression.Multiply);
                     break;
-                case MathOperatorTokenTypes.Divide:
+                case MathOperatorTokenTypes.Frac:
                     _HandleBinaryOps(Expression.Divide);
                     break;
                 case MathOperatorTokenTypes.Expo:

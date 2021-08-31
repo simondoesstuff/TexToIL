@@ -47,7 +47,7 @@ namespace LatexProcessing
         {
             if (c.TokenType != MathTokenTypes.Op) return -1;
 
-            var cOp = (MathOpToken)c;
+            var cOp = (OpToken)c;
 
             return cOp.OpType.GetPrecedence();
         }
@@ -55,7 +55,7 @@ namespace LatexProcessing
         private static bool _IsOpenOrClosePara(IMathToken c, bool isOpen = true)
         {
             if (c.TokenType != MathTokenTypes.Sep) return false;
-            return !((MathSepToken)c).IsClosingSep == isOpen;
+            return !((SepToken)c).IsClosingSep == isOpen;
         }
 
         private void _HandleToken(IMathToken c)

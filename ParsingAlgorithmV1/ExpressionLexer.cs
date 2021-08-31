@@ -78,7 +78,7 @@ namespace LatexProcessing
             matches = ReSubOp.Matches(_latexString);
 
             foreach (Match match in matches)
-                _InsertToken(match.Index, new MathOpToken(MathOperatorTokenTypes.Sub));
+                _InsertToken(match.Index, new OpToken(MathOperatorTokenTypes.Sub));
 
             _WhiteOutString(matches);
 
@@ -86,7 +86,7 @@ namespace LatexProcessing
             matches = ReAddOp.Matches(_latexString);
 
             foreach (Match match in matches)
-                _InsertToken(match.Index, new MathOpToken(MathOperatorTokenTypes.Add));
+                _InsertToken(match.Index, new OpToken(MathOperatorTokenTypes.Add));
 
             _WhiteOutString(matches);
 
@@ -94,7 +94,7 @@ namespace LatexProcessing
             matches = ReMultOp.Matches(_latexString);
 
             foreach (Match match in matches)
-                _InsertToken(match.Index, new MathOpToken(MathOperatorTokenTypes.Mult));
+                _InsertToken(match.Index, new OpToken(MathOperatorTokenTypes.Mult));
 
             _WhiteOutString(matches);
 
@@ -107,7 +107,7 @@ namespace LatexProcessing
                 if (!int.TryParse(match.Value, out var result))
                     throw new InvalidLatexExpressionException(_latexString.Length - _latexString.Length);
 
-                _InsertToken(match.Index, new MathConstToken(result));
+                _InsertToken(match.Index, new ConstToken(result));
             }
 
             _WhiteOutString(matches);
@@ -131,7 +131,7 @@ namespace LatexProcessing
                 // add pi.      On group 1 success, append -pi instead.
                 if (groups[2].Success)
                 {
-                    _InsertToken(match.Index, new MathConstToken(
+                    _InsertToken(match.Index, new ConstToken(
                         (groups[1].Success ? -1 : 1) * Math.PI));
 
                     // if this group was successful, group 3 is definitely not successful.
@@ -144,8 +144,8 @@ namespace LatexProcessing
                 {
                     if (groups[1].Success)
                     {
-                        _InsertToken(match.Index, new MathConstToken(-1));
-                        _InsertToken(match.Index, new MathOpToken(MathOperatorTokenTypes.Mult));
+                        _InsertToken(match.Index, new ConstToken(-1));
+                        _InsertToken(match.Index, new OpToken(MathOperatorTokenTypes.Mult));
                     }
 
                     var matchStr = groups[3].Value;
@@ -162,7 +162,7 @@ namespace LatexProcessing
                         throw new InvalidLatexExpressionException(_latexString.Length - _latexString.Length,
                             matchStr.Length, "Variables must be letters.");
 
-                    _InsertToken(match.Index, new MathVarToken(matchVarNum));
+                    _InsertToken(match.Index, new VarToken(matchVarNum));
                 }
             }
 
@@ -188,12 +188,12 @@ namespace LatexProcessing
                 // dealing with parenthesis
                 if (groups[3].Success)
                 {
-                    _InsertToken(match.Index, new MathSepToken(MathSeparatorTokenTypes.Parenthesis, groups[2].Success));
+                    _InsertToken(match.Index, new SepToken(MathSeparatorTokenTypes.Parenthesis, groups[2].Success));
                     continue;
                 }
 
                 // dealing with abs bars
-                _InsertToken(match.Index, new MathSepToken(MathSeparatorTokenTypes.AbsoluteValue, groups[2].Success));
+                _InsertToken(match.Index, new SepToken(MathSeparatorTokenTypes.AbsoluteValue, groups[2].Success));
             }
 
             _WhiteOutString(matches);
@@ -205,7 +205,7 @@ namespace LatexProcessing
             {
                 var groups = match.Groups;
 
-                _InsertToken(groups[1].Index, new MathOpToken(MathOperatorTokenTypes.Expo));
+                _InsertToken(groups[1].Index, new OpToken(MathOperatorTokenTypes.Expo));
             }
 
 
@@ -228,7 +228,7 @@ namespace LatexProcessing
             foreach (Match match in matches)
                 // group 4 corresponds to the second to last bracket
 
-                _InsertToken(match.Groups[4].Index, new MathOpToken(MathOperatorTokenTypes.Divide));
+                _InsertToken(match.Groups[4].Index, new OpToken(MathOperatorTokenTypes.Frac));
 
             // here we white out each match, one group at a time, backwards
 
