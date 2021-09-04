@@ -7,35 +7,28 @@ namespace LatexProcessing.LatexMathParser
     /// Singleton
     public class Lexer
     {
-        private Regex _reWhitespace = new Regex(@"^\s+");
-        private Regex _reAssignment = new Regex(@"^([a-z])=");
-        private Regex _reDelimiter = new Regex(@"^({|})");
-        private Regex _reAdd = new Regex(@"^\+");
-        private Regex _reSub = new Regex(@"^-");
-        private Regex _reMult = new Regex(@"^\\cdot");
-        private Regex _reExpo = new Regex(@"^\^");
-        private Regex _reConst = new Regex(@"^(\d+)");
-        private Regex _reVar = new Regex(@"^([a-z])");
-        private Regex _rePi = new Regex(@"^\\pi");
-        private Regex _reFrac = new Regex(@"^\\frac");
-        private Regex _reSqrt = new Regex(@"^\\sqrt");
-        private Regex _reParenthesis = new Regex(@"^\\(left|right)(?:\(|\))");
-        private Regex _reAbsVal = new Regex(@"^\\(left|right)\|");
+        private Regex _reWhitespace = new Regex(@"^\s+", RegexOptions.IgnoreCase);
+        private Regex _reAssignment = new Regex(@"^([A-Za-z])\s+=", RegexOptions.IgnoreCase);
+        private Regex _reDelimiter = new Regex(@"^({|})", RegexOptions.IgnoreCase);
+        private Regex _reAdd = new Regex(@"^\+", RegexOptions.IgnoreCase);
+        private Regex _reSub = new Regex(@"^-", RegexOptions.IgnoreCase);
+        private Regex _reMult = new Regex(@"^\\cdot", RegexOptions.IgnoreCase);
+        private Regex _reExpo = new Regex(@"^\^", RegexOptions.IgnoreCase);
+        private Regex _reConst = new Regex(@"^(\d+)", RegexOptions.IgnoreCase);
+        private Regex _reVar = new Regex(@"^([a-z])", RegexOptions.IgnoreCase);
+        private Regex _rePi = new Regex(@"^\\pi", RegexOptions.IgnoreCase);
+        private Regex _reFrac = new Regex(@"^\\frac", RegexOptions.IgnoreCase);
+        private Regex _reSqrt = new Regex(@"^\\sqrt", RegexOptions.IgnoreCase);
+        private Regex _reParenthesis = new Regex(@"^\\(left|right)(?:\(|\))", RegexOptions.IgnoreCase);
+        private Regex _reAbsVal = new Regex(@"^\\(left|right)\|", RegexOptions.IgnoreCase);
 
         private static readonly Lazy<Lexer> _lazy = new Lazy<Lexer>(() => new Lexer());
         public static Lexer Inst => _lazy.Value;
         
         private Lexer() {}
 
-        private void _PreFilter(ref string str)
-        {
-            str = str.ToLower();
-        }
-
         public IEnumerable<IMathToken> Lex(string latexExp)
         {
-            _PreFilter(ref latexExp);
-
             int index = 0;
             
             // do an initial match for variable assignment

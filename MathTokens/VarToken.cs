@@ -7,13 +7,12 @@ namespace LatexProcessing
         public MathTokenTypes TokenType { get; protected set; }
         public int? ExpressionPosition { get; }
         public char Name { get; }
-
-        /// <param name="name">Converted to lowercase</param>
+        
         public VarToken(char name, int? expressionPosition)
         {
             TokenType = MathTokenTypes.Var;
-            
-            Name = Char.ToLower(name);
+
+            Name = name;
             ExpressionPosition = expressionPosition;
         }
         
