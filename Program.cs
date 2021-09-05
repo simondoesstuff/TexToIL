@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Linq;
 using System.Linq.Expressions;
 using LatexProcessing.LatexMathParser;
 
@@ -6,7 +8,18 @@ namespace LatexProcessing
 {
     public class Program
     {
-        public void FullTest()
+        double Time(Func<dynamic> func)
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            func();
+            stopwatch.Stop();
+            return stopwatch.ElapsedMilliseconds;
+        }
+        
+        
+        
+        /*public void FullTest()
         {
             // var testExp = @"-\left(5+3\right)-40\pi n+3x\left(2--3\right)^{-4\left(1+5x\right)}-5\frac{1}{x}";
             // var testExp = @"-\left(5+3\right)-40\pi n+3x\left(2-3\right)^{-4\left(1+5x\right)}-5\frac{1}{x}";
@@ -51,7 +64,7 @@ namespace LatexProcessing
             // var result = compiledExp.DynamicInvoke(4, 4, 5);
             var result = compiledExp.DynamicInvoke(5, 4, 4);
             Console.Out.WriteLine("result = {0}", result);
-        }
+        }*/
 
         public void ExpTreeTest()
         {
@@ -76,11 +89,83 @@ namespace LatexProcessing
                 Console.Out.WriteLine("token: " + token);
         }
 
+        public void ParserTest()
+        {
+            var exp = @"\frac{0-b+ \sqrt{b^2-4\cdot a\cdot c}}{2\cdot a}";
+        
+            try
+            {
+                Console.Out.WriteLine("exp = {0}", exp);
+
+                // measure the time to parse & compile
+                var stopwatch = new Stopwatch();
+                stopwatch.Start();
+                var parseResult = Parser.BuildExpression(exp);
+
+                // print variable assignment
+                if (parseResult.Item2 != null)
+                    Console.Out.WriteLine($"Var Assign: '{parseResult.Item2}'");
+
+                // store lambda exp
+                var lambdaExp = parseResult.Item1;
+                
+                // print parameters
+                var parametersStr = string.Join(", ", lambdaExp.Parameters);
+                Console.Out.WriteLine("Parameters: " + parametersStr);
+                
+                // print answer
+                
+                var compiledExp = lambdaExp.Compile();
+                stopwatch.Stop();
+                Console.Out.WriteLine("Parsed and compiled in {0}ms", stopwatch.ElapsedMilliseconds);
+                
+                var userParams = from str in Console.ReadLine()?.Split(", ") select (object) double.Parse(str);
+                double answer = (double) compiledExp.DynamicInvoke(userParams.ToArray())!;
+                Console.Out.WriteLine("answer = {0}", answer);
+            }
+            catch (InvalidLatexExpressionException e)
+            {
+                Console.WriteLine(e.ToString());
+                int? num = e.IndexOfError;
+                Console.Out.WriteLine("Here: " + (num != null ? exp[(int)num..] : "entirety"));
+                Console.Out.WriteLine("");
+                Console.Out.WriteLine(e.StackTrace);
+            }
+        }
+
+        public void MathTokenTest()
+        {
+            void AreSame(IMathToken one, IMathToken two)
+            {
+                Console.Out.WriteLine($"{(one.Equals(two) ? "Yes" : "No")}");
+            }
+
+            AreSame(new OpToken(MathOperatorTokenTypes.Add, 3),
+                new OpToken(MathOperatorTokenTypes.Add, 3));
+            
+            AreSame(new OpToken(MathOperatorTokenTypes.Add, 4),
+                new OpToken(MathOperatorTokenTypes.Add, 3));
+            
+            AreSame(new OpToken(MathOperatorTokenTypes.Sub, 3),
+                new OpToken(MathOperatorTokenTypes.Add, 3));
+            
+            AreSame(new SepToken(MathSeparatorTokenTypes.AbsoluteValue, true, 6),
+                new SepToken(MathSeparatorTokenTypes.AbsoluteValue, false, 6));
+            
+            AreSame(new VarToken('a', null),
+                new AssignmentToken('a', null));
+            
+            AreSame(new AssignmentToken('a', null),
+                new VarToken('a', null));
+        }
+        
         public static void Main(string[] args)
         {
             // new Program().ExpTreeTest();
             // new Program().FullTest();
-            new Program().LexerTest();
+            // new Program().LexerTest();
+            new Program().ParserTest();
+            // new Program().MathTokenTest();
         }
     }
 }
