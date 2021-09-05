@@ -18,6 +18,8 @@ namespace LatexProcessing.LatexMathParser
         private Regex _reVar = new Regex(@"^([a-z])", RegexOptions.IgnoreCase);
         private Regex _rePi = new Regex(@"^\\pi", RegexOptions.IgnoreCase);
         private Regex _reFrac = new Regex(@"^\\frac", RegexOptions.IgnoreCase);
+        private Regex _reSin = new Regex(@"^\\sin", RegexOptions.IgnoreCase);
+        private Regex _reCos = new Regex(@"^\\cos", RegexOptions.IgnoreCase);
         private Regex _reSqrt = new Regex(@"^\\sqrt", RegexOptions.IgnoreCase);
         private Regex _reParenthesis = new Regex(@"^\\(left|right)(?:\(|\))", RegexOptions.IgnoreCase);
         private Regex _reAbsVal = new Regex(@"^\\(left|right)\|", RegexOptions.IgnoreCase);
@@ -125,6 +127,20 @@ namespace LatexProcessing.LatexMathParser
                 return new OpToken(MathOperatorTokenTypes.Frac, stackPointer);
             }
             
+            match = _reSin.Match(latexExp);
+            if (match.Success)
+            {
+                stackPointer += match.Length;
+                return new OpToken(MathOperatorTokenTypes.Sin, stackPointer);
+            }
+            
+            match = _reCos.Match(latexExp);
+            if (match.Success)
+            {
+                stackPointer += match.Length;
+                return new OpToken(MathOperatorTokenTypes.Cos, stackPointer);
+            }
+            
             match = _reSqrt.Match(latexExp);
             if (match.Success)
             {
@@ -151,7 +167,7 @@ namespace LatexProcessing.LatexMathParser
                     return new SepToken(MathSeparatorTokenTypes.AbsoluteValue, false, stackPointer);
                 return new SepToken(MathSeparatorTokenTypes.AbsoluteValue, true, stackPointer);
             }
-
+            
             throw new InvalidLatexExpressionException(stackPointer);
         }
     }
