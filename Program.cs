@@ -91,7 +91,7 @@ namespace LatexProcessing
 
         public void ParserTest()
         {
-            var exp = @"\frac{0-b+ \sqrt{b^2-4\cdot a\cdot c}}{2\cdot a}";
+            var exp = @"3+10\cdot b";
         
             try
             {
@@ -113,14 +113,22 @@ namespace LatexProcessing
                 var parametersStr = string.Join(", ", lambdaExp.Parameters);
                 Console.Out.WriteLine("Parameters: " + parametersStr);
                 
-                // print answer
-                
+                // compile expression, print compilation time
                 var compiledExp = lambdaExp.Compile();
                 stopwatch.Stop();
                 Console.Out.WriteLine("Parsed and compiled in {0}ms", stopwatch.ElapsedMilliseconds);
                 
+                // get parameters from console in
                 var userParams = from str in Console.ReadLine()?.Split(", ") select (object) double.Parse(str);
+
+                // calculate the answer and print the time elapsed
+                stopwatch.Restart();
+                stopwatch.Start();
                 double answer = (double) compiledExp.DynamicInvoke(userParams.ToArray())!;
+                stopwatch.Stop();
+                Console.Out.WriteLine("Answer calculated in {0}ms", stopwatch.ElapsedMilliseconds);
+                
+                // print the answer
                 Console.Out.WriteLine("answer = {0}", answer);
             }
             catch (InvalidLatexExpressionException e)
