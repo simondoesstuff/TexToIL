@@ -9,7 +9,24 @@ namespace LatexProcessing2.Parsing
     
     public class Parser
     {
-        public static Expression Parse(List<MathToken> expression)
+        public static (Expression, Dictionary<string, ParameterExpression>) BuildExpression(List<MathToken> expression)
+        {
+            var parser = new Parser();
+            var exp = parser.Parse(expression);
+            return (exp, parser._parameters);
+        }
+
+        private Parser()
+        {
+        }
+        
+        // --------------------------------------------------
+        //      Parsing Algorithm
+        // --------------------------------------------------
+        
+        private readonly Dictionary<string, ParameterExpression> _parameters = new();
+        
+        private Expression Parse(List<MathToken> expression)
         {
             // ------------------------------------------------------
             //          Handling binary operators inside
@@ -37,7 +54,7 @@ namespace LatexProcessing2.Parsing
             return TermParse(expression);
         }
 
-        private static Expression ParseAddOrSub(List<MathToken> expression)
+        private Expression ParseAddOrSub(List<MathToken> expression)
         {
             int depth = 0;
 
@@ -55,8 +72,8 @@ namespace LatexProcessing2.Parsing
                 {
                     case MathElement.Add:
                         return Expression.Add(
-                            TermParse(expression.Take(i).ToList()),
-                            TermParse(expression.Skip(i + 1).ToList())
+                            Parse(expression.Take(i).ToList()),
+                            Parse(expression.Skip(i + 1).ToList())
                         );
                     case MathElement.Subtract:
                         // we first need to confirm this is subtraction
@@ -89,7 +106,7 @@ namespace LatexProcessing2.Parsing
             return null;
         }
         
-        private static Expression ParseMult(List<MathToken> expression)
+        private Expression ParseMult(List<MathToken> expression)
         {
             int depth = 0;
 
@@ -106,8 +123,8 @@ namespace LatexProcessing2.Parsing
                 if (token.Type != MathElement.Multiply) continue;
 
                 return Expression.Multiply(
-                    TermParse(expression.Take(i).ToList()),
-                    TermParse(expression.Skip(i + 1).ToList())
+                    Parse(expression.Take(i).ToList()),
+                    Parse(expression.Skip(i + 1).ToList())
                 );
             }
 
@@ -115,7 +132,7 @@ namespace LatexProcessing2.Parsing
             return null;
         }
 
-        private static Expression TermParse(List<MathToken> expression)
+        private Expression TermParse(List<MathToken> expression)
         {
             /*
              * A term is a row a "value tokens". Eg:     3(5 \sqrt( 5 ) ).
@@ -140,10 +157,10 @@ namespace LatexProcessing2.Parsing
 
             return combination;
         }
-
-        /*
-         * Term Parse algorithmic methods
-         */
+        
+        // --------------------------------------------------
+        //      Term Parse algorithmic methods
+        // --------------------------------------------------
         
         /// <summary>
         /// Splits all the terms on the same depth level.
@@ -153,7 +170,7 @@ namespace LatexProcessing2.Parsing
         /// <param name="expression"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        private static List<Expression> TermSplit(List<Expression> split, List<MathToken> expression)
+        private List<Expression> TermSplit(List<Expression> split, List<MathToken> expression)
         {
             while (true)
             {
@@ -187,7 +204,7 @@ namespace LatexProcessing2.Parsing
                         continue;
                     // -------------------    Variable    -------------------
                     case MathElement.Variable:
-                        split.Add(Expression.Parameter(typeof(double), firstToken.VariableName));
+                        split.Add(ParamFrom(firstToken.VariableName));
                         expression = expression.Skip(1).ToList();
                         continue;
                     // -------------------    Unary Negation    -------------------
@@ -217,7 +234,7 @@ namespace LatexProcessing2.Parsing
         /// <summary>
         /// Given an openingType which increases the depth
         /// and a closingType which decreases the depth, scans
-        /// from index 0 until the depth is 0.
+        /// from index 0 until the depth is 0. Utility method.
         ///
         /// Eg: (2+2)
         /// -->   4
@@ -253,7 +270,7 @@ namespace LatexProcessing2.Parsing
             throw new Exception("Misformatted Latex.");
         }
 
-        private static void PowerTermParse(ref List<Expression> split, ref List<MathToken> expression)
+        private void PowerTermParse(ref List<Expression> split, ref List<MathToken> expression)
         {
             // assuming this will only be called when remaining[0] is a Power
 
@@ -284,7 +301,7 @@ namespace LatexProcessing2.Parsing
             split[split.Count - 1] = powerExp;
         }
 
-        private static void RootTermParse(ref List<Expression> split, ref List<MathToken> expression)
+        private void RootTermParse(ref List<Expression> split, ref List<MathToken> expression)
         {
             var depthScan = DepthScan(expression.Skip(1).ToList(), MathElement.OpenLatexDelimiter, MathElement.ClosedLatexDelimiter);
             var internalOperand = Parse(expression.Skip(2).Take(depthScan - 1).ToList());
@@ -295,7 +312,7 @@ namespace LatexProcessing2.Parsing
             expression = theRest;
         }
 
-        private static void FracTermParse(ref List<Expression> split, ref List<MathToken> expression)
+        private void FracTermParse(ref List<Expression> split, ref List<MathToken> expression)
         {
             // assuming expression[0] is the \frac
 
@@ -317,12 +334,10 @@ namespace LatexProcessing2.Parsing
             expression = expression.Skip(scan1 + scan2 + 3).ToList();
         }
         
-        /*
-         * Keep track of parameters
-         */
+        // --------------------------------------------------
+        //      Keep track of parameters
+        // --------------------------------------------------
 
-        // todo keep track of params
-        
         /// <summary>
         /// Retrieve a parameter based on the name.
         /// If the parameter does not yet exist,
@@ -331,9 +346,14 @@ namespace LatexProcessing2.Parsing
         /// <param name="identifier"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        private static ParameterExpression ParamFrom(string identifier)
+        private ParameterExpression ParamFrom(string identifier)
         {
-            throw new NotImplementedException();
+            if (!_parameters.ContainsKey(identifier))
+            {
+                _parameters.Add(identifier, Expression.Parameter(typeof(double), identifier));
+            }
+
+            return _parameters[identifier];
         }
     }
 }

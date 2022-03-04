@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace LatexProcessing2.Parsing
 {
-    public class Lexer
+    public static class Lexer
     {
         public static IEnumerable<MathToken> Lex(string expression)
         {
