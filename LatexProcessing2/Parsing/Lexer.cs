@@ -111,7 +111,7 @@ namespace LatexProcessing2.Parsing
 
             if (!m.Success)
             {
-                throw new ArgumentException("Unrecognizable expression: " + expression);
+                throw new ArgumentException($"Misformatted Latex. Unrecognizable expression: {expression}.");
             }
         }
     }

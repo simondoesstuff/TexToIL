@@ -37,7 +37,7 @@ namespace LatexProcessing2.Parsing
 
             if (expression.Count == 0)
             {
-                throw new Exception("Can not parse empty expression");
+                throw new Exception("Expected expression. Misformatted Latex.");
             }
             
             Expression result;
@@ -143,7 +143,7 @@ namespace LatexProcessing2.Parsing
             // this could happen if -- eg:     " 1 + 2 * " (no term after the multiply)
             if (expression.Count == 0)
             {
-                throw new Exception("Expected term.");
+                throw new Exception("Expected term. Misformatted Latex.");
             }
 
             var split = TermSplit(new List<Expression>(), expression);
@@ -227,7 +227,7 @@ namespace LatexProcessing2.Parsing
                 // todo sin, cos
 
                 // at this point, this term is not parsable
-                throw new Exception("Unrecognized term.");
+                throw new Exception("Unexpected term. Misformatted Latex.");
             }
         }
 
@@ -251,7 +251,7 @@ namespace LatexProcessing2.Parsing
             var firstToken = expression[0];
             
             if (firstToken.Type != openingType)
-                return 0;
+                throw new Exception("Misformatted Latex.");
 
             // we will now scan through the term to find the matching parenthesis
             for (int i = 1, depth = 1; i < expression.Count; i++)
@@ -316,6 +316,9 @@ namespace LatexProcessing2.Parsing
         {
             // assuming expression[0] is the \frac
 
+            if (expression.Count < 5)
+                throw new Exception("Misformatted Latex");
+            
             if (expression[1].Type != MathElement.OpenLatexDelimiter)
                 throw new Exception("Misformatted Latex");
             
