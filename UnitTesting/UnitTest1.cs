@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using LatexProcessing2;
 using LatexProcessing2.Parsing;
@@ -41,10 +41,14 @@ namespace UnitTesting
         }
         
         [Test]
-        public void TestFullParser()
+        public void TestQuadraticFormula()
         {
-            const string expression = @"\frac{-b + \sqrt{b^2-4ac}}{2a}";
-            Parser.Parse(Lexer.Lex(expression).ToList());
+            const string expression = @"\frac{-b+\sqrt{b^2-4ac}}{2a}";
+            var Exp = LatexFunction.CompileFrom(expression).Call;
+            var result = Exp(2, -9, 3);
+            Console.Out.WriteLine($"(2x^2 - 9x + 3) has a root at: {result}");
+            var rounded = Math.Round(result, 3);
+            Assert.AreEqual(rounded, 4.137D);
         }
     }
 }
