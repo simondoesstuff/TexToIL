@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace LatexProcessing2
+namespace LatexProcessing2.Parsing
 {
     // todo custom exception handling
     
@@ -141,6 +141,10 @@ namespace LatexProcessing2
             return combination;
         }
 
+        /*
+         * Term Parse algorithmic methods
+         */
+        
         /// <summary>
         /// Splits all the terms on the same depth level.
         /// They are combined into a single term in TermParse()
@@ -311,6 +315,25 @@ namespace LatexProcessing2
 
             split.Add(Expression.Divide(numerator, denominator));
             expression = expression.Skip(scan1 + scan2 + 3).ToList();
+        }
+        
+        /*
+         * Keep track of parameters
+         */
+
+        // todo keep track of params
+        
+        /// <summary>
+        /// Retrieve a parameter based on the name.
+        /// If the parameter does not yet exist,
+        /// it will be created.
+        /// </summary>
+        /// <param name="identifier"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        private static ParameterExpression ParamFrom(string identifier)
+        {
+            throw new NotImplementedException();
         }
     }
 }

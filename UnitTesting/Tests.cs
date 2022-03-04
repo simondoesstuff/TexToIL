@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using LatexProcessing2;
+using LatexProcessing2.Parsing;
 using NUnit.Framework;
 
 namespace UnitTesting
@@ -11,14 +12,15 @@ namespace UnitTesting
         [Test]
         public void TestLexer()
         {
-            const string expression = @"\frac{-b + \sqrt{b^2-4ac}}{2a}";
+            const string expression = @"\frac{-b+\sqrt{b^2-4ac}}{2a}";
 
             var expected =
                 "Frac OpenLatexDelimiter Subtract Variable(b) Add Root OpenLatexDelimiter Variable(b) Power Number(2) Subtract Number(4) Variable(a) Variable(c) ClosedLatexDelimiter ClosedLatexDelimiter OpenLatexDelimiter Number(2) Variable(a) ClosedLatexDelimiter ";
 
             string actual = "";
+            var tokens = Lexer.Lex(expression).ToList();
 
-            foreach (var token in Lexer.Lex(expression))
+            foreach (var token in tokens)
             {
                 actual += token.Type.ToString();
 

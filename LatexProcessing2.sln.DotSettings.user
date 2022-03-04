@@ -3,9 +3,15 @@
   &lt;Assembly Path="D:\TechnicalProjects\Personal\ByLanguage\C#\LatexProcessing2\LatexProcessing2\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
 	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">C:\Users\swsim\AppData\Local\JetBrains\Rider2021.3\resharper-host\temp\Rider\vAny\CoverageData\_LatexProcessing2.-47642809\Snapshot\snapshot.utdcvr</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1274bd26_002Dfc88_002D4802_002D91d8_002D1957356472ff/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TestFullParser #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1274bd26_002Dfc88_002D4802_002D91d8_002D1957356472ff/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TestFullParser #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::ED2931DB-2147-4BC7-A847-88EE609C1793::.NETFramework,Version=v3.5::UnitTesting.Tests.TestFullParser&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::ED2931DB-2147-4BC7-A847-88EE609C1793::.NETFramework,Version=v3.5::UnitTesting.Tests.TestLexer&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4a156466_002D93de_002D441d_002D8d86_002D9c47405a1253/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TestLexer" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::ED2931DB-2147-4BC7-A847-88EE609C1793::.NETFramework,Version=v3.5::UnitTesting.Tests.TestLexer&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7d748d80_002Dcea4_002D41b3_002Db679_002D74de9ee59ae1/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TestFullParser" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
@@ -18,9 +24,10 @@
     &lt;TestId&gt;NUnit3x::ED2931DB-2147-4BC7-A847-88EE609C1793::.NETFramework,Version=v3.5::UnitTesting.Tests.TestFullParser&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c3f32d72_002D3a75_002D417a_002Db914_002D549814c515be/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TestFullParser #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c3f32d72_002D3a75_002D417a_002Db914_002D549814c515be/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TestFullParser #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::ED2931DB-2147-4BC7-A847-88EE609C1793::.NETFramework,Version=v3.5::UnitTesting.Tests.TestFullParser&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::ED2931DB-2147-4BC7-A847-88EE609C1793::.NETFramework,Version=v3.5::UnitTesting.Tests.TestLexer&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	

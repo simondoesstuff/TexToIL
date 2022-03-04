@@ -41,10 +41,11 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="ExtraLinqExpressions.cs" />
-        <Compile Include="Lexer.cs" />
         <Compile Include="MathElement.cs" />
         <Compile Include="MathToken.cs" />
-        <Compile Include="Parser.cs" />
+        <Compile Include="Parsing\Lexer.cs" />
+        <Compile Include="Parsing\Parser.cs" />
+        <Compile Include="Parsing\TermParser.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>

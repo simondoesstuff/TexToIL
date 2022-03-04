@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace LatexProcessing2
+namespace LatexProcessing2.Parsing
 {
     public class Lexer
     {
