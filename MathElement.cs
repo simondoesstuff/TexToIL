@@ -13,6 +13,6 @@
         OpenParenthesis,
         CloseParenthesis,
         OpenLatexDelimiter,
-        CloseLatexDelimiter
+        ClosedLatexDelimiter
     }
 }

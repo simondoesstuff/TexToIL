@@ -9,14 +9,14 @@ namespace LatexProcessing2
         /// <summary>
         /// if not a MathElement.Number == null
         /// </summary>
-        public readonly float? NumberValue;
+        public readonly double? NumberValue;
 
         /// <summary>
         /// if not a MathElement.Variable == ""
         /// </summary>
         public readonly string VariableName;
 
-        public static MathToken FromNumber(float number) => new MathToken(MathElement.Number, number, "");
+        public static MathToken FromNumber(double number) => new MathToken(MathElement.Number, number, "");
         public static MathToken FromVariable(string name) => new MathToken(MathElement.Variable, null, name);
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace LatexProcessing2
             return new MathToken(type, null, "");
         }
 
-        private MathToken(MathElement type, float? numberValue, string variableName)
+        private MathToken(MathElement type, double? numberValue, string variableName)
         {
             this.Type = type;
             this.NumberValue = numberValue;
@@ -73,11 +73,27 @@ namespace LatexProcessing2
             switch (Type)
             {
                 case MathElement.OpenLatexDelimiter:
-                case MathElement.CloseLatexDelimiter:
+                case MathElement.ClosedLatexDelimiter:
                     return true;
                 default:
                     return false;
             }
+        }
+
+        public bool isOpeningElement()
+        {
+            if (Type == MathElement.OpenParenthesis || Type == MathElement.OpenLatexDelimiter)
+                return true;
+            
+            return false;
+        }
+        
+        public bool isClosingElement()
+        {
+            if (Type == MathElement.CloseParenthesis || Type == MathElement.ClosedLatexDelimiter)
+                return true;
+            
+            return false;
         }
     }
 }

@@ -99,7 +99,7 @@ namespace LatexProcessing2
             m = Regex.Match(expression, @"^(\{|\})");
             if (m.Success)
             {
-                var type = m.Value.Equals("{") ? MathElement.OpenLatexDelimiter : MathElement.CloseLatexDelimiter;
+                var type = m.Value.Equals("{") ? MathElement.OpenLatexDelimiter : MathElement.ClosedLatexDelimiter;
                 yield return MathToken.FromElement(type);
                 foreach (var t in Lex(expression.Substring(m.Length))) yield return t;
                 yield break;
