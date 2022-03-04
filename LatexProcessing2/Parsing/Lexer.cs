@@ -41,7 +41,7 @@ namespace LatexProcessing2.Parsing
             if (m.Success)
             {
                 // here we are parsing a string into a number... that regex better be perfect
-                yield return MathToken.FromNumber(int.Parse(m.Value));
+                yield return MathToken.FromNumber(double.Parse(m.Value));
                 foreach (var t in Lex(expression.Substring(m.Length))) yield return t;
                 yield break;
             }

@@ -67,7 +67,7 @@ namespace LatexProcessing2
                     return false;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.Out.WriteLine("Parameters must be in form:    a, b, c");
                 foundParams = null;
