@@ -95,9 +95,10 @@ namespace LatexProcessing2.Parsing
                         // we are dealing with a unary sub operator
                         if (i == 0 || expression[i - 1].Type == MathElement.Multiply) continue;
                         
+                        // we are dealing with subtraction
                         return Expression.Subtract(
-                            TermParse(expression.Take(i).ToList()),
-                            TermParse(expression.Skip(i + 1).ToList())
+                            Parse(expression.Take(i).ToList()),
+                            Parse(expression.Skip(i + 1).ToList())
                         );
                 }
             }
@@ -192,8 +193,8 @@ namespace LatexProcessing2.Parsing
                     case MathElement.OpenParenthesis:
                     {
                         var scan = DepthScan(expression, MathElement.OpenParenthesis, MathElement.CloseParenthesis);
-                        var internalTerm = TermParse(expression.Skip(1).Take(scan - 1).ToList());
-                        split.Add(internalTerm);
+                        var internalExpression = Parse(expression.Skip(1).Take(scan - 1).ToList());
+                        split.Add(internalExpression);
                         expression = expression.Skip(scan + 1).ToList();
                         continue;
                     }

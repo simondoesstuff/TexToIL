@@ -34,6 +34,7 @@ namespace LatexProcessing2.Parsing
                 paramValuesList.Add(paramRefs[param]);
 
             // compile the expression
+            inst.InternalExpression = exp;
             var lambdaExp = Expression.Lambda(exp, paramValuesList);
             var funcDelegate = lambdaExp.Compile();
             inst.Call = args => (double)funcDelegate.DynamicInvoke(args.Select(d => (object) d).ToArray())!;
