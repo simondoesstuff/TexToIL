@@ -284,15 +284,18 @@ namespace LatexProcessing2.Parsing
             if (expression[1].Type != MathElement.OpenLatexDelimiter)
             {
                 // we are dealing with a simple situation like    x^2
-                powerOperand = TermParse(new List<MathToken> { expression[1] });
+                powerOperand = Parse(new List<MathToken> { expression[1] });
                 expression = expression.Skip(2).ToList();
             }
             else
             {
+                if (expression.Count < 3)
+                    throw new Exception("Misformatted Latex.");
+                
                 // we are dealing with a complex operand like    x ^ {3+2}
-                var depthScan = DepthScan(expression.Skip(2).ToList(), MathElement.OpenLatexDelimiter, MathElement.ClosedLatexDelimiter);
+                var depthScan = DepthScan(expression.Skip(1).ToList(), MathElement.OpenLatexDelimiter, MathElement.ClosedLatexDelimiter);
                 powerOperand = Parse(expression.Skip(2).Take(depthScan - 1).ToList());
-                expression = expression.Skip(depthScan + 3).ToList();
+                expression = expression.Skip(depthScan + 2).ToList();
             }
             
             // reconstruct the expression to include the power
