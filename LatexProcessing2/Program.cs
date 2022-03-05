@@ -5,33 +5,41 @@ using LatexProcessing2.Parsing;
 
 namespace LatexProcessing2
 {
-    // todo this project is not yet synced to github
-
     internal class Program
     {
         public static void Main(string[] args)
         {
             while (true)
             {
-                // get the expression from console in
-                Console.Out.Write("Expression > ");
-                string expression = Console.ReadLine();
-                var latexFunc = Compile(expression);
+                try
+                {
+                    // get the expression from console in
+                    Console.Out.Write("Expression > ");
+                    string expression = Console.ReadLine();
+                    var latexFunc = Compile(expression);
 
-                // print parameters
-                var detectedParams = string.Join(", ", latexFunc.Parameters);
-                Console.Out.WriteLine($"Detected {latexFunc.Parameters.Length} Parameter(s): {detectedParams}");
+                    // print parameters
+                    var detectedParams = string.Join(", ", latexFunc.Parameters);
+                    Console.Out.WriteLine($"Detected {latexFunc.Parameters.Length} Parameter(s): {detectedParams}");
 
-                // get parameters from console in
-                double[] executionParams;
-                while (true)
-                    if (GetParams(out executionParams, latexFunc.Parameters.Length))
-                        break;
+                    // get parameters from console in
+                    double[] executionParams;
+                    while (true)
+                        if (GetParams(out executionParams, latexFunc.Parameters.Length))
+                            break;
 
-                // print the answer
-                var answer = latexFunc.Call(executionParams);
-                Console.Out.WriteLine("answer = {0}", answer);
-                Console.Out.WriteLine("");
+                    // print the answer
+                    var answer = latexFunc.Call(executionParams);
+                    Console.Out.WriteLine("answer = {0}", answer);
+                }
+                catch (Exception e)
+                {
+                    Console.Out.WriteLine(e);
+                }
+                finally
+                {
+                    Console.Out.WriteLine("");
+                }
             }
         }
 
