@@ -50,5 +50,15 @@ namespace UnitTesting
             var rounded = Math.Round(result, 3);
             Assert.AreEqual(rounded, 4.137D);
         }
+        
+        [Test]
+        public void ParenthesisParserTest()
+        {
+            const string expression = @"\left(2\cdot x-3\right)";
+            var Exp = LatexFunction.CompileFrom(expression).Call;
+            var result = Exp(5);
+            Console.Out.WriteLine($"(2x - 3) is: {result}");
+            Assert.AreEqual(result, 7);
+        }
     }
 }
