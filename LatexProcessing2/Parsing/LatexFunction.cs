@@ -9,9 +9,9 @@ namespace LatexProcessing2.Parsing
     {
         public string[] Parameters {private set; get;}
         public Expression InternalExpression {private set; get;}
-        public ExpressionFunction Call { private set; get; }
+        public MathFunction Call { private set; get; }
 
-        public delegate double ExpressionFunction(params double[] args);
+        public delegate double MathFunction(params double[] args);
     
         private LatexFunction()
         {
