@@ -3,6 +3,25 @@ using System.Diagnostics;
 using System.Linq;
 using LatexProcessing2.Parsing;
 
+/**
+ * I started on this project about 1 year ago. This fully-fledged alegebra
+ * parser was my first large parser at the time. I really struggled to get it
+ * operational over more than week of effort and it was not even capable of
+ * every feature I had in mind. I ultimately found a more clever way
+ * to avoid needing the parser (for another project) and dropped the project.
+ *
+ * Yesterday, I deicided I would try to recreate the project to test myself.
+ * I wrote over 700 lines in one day and got the entire project fully
+ * operational. The next day I wrote 200 more and published it.
+ *
+ * It uses a highly recursive algorithm. Most similar to recursive-descent.
+ * Binary operators are parsed first and the "terms" (operands) are parsed
+ * seperately. Terms are broken into pieces (2abc = 2 * a * b * c) and
+ * recombined into a single Expression unit.
+ *
+ * It parses perfectly efficiently, quickly, and can do anything I would need.
+ */
+
 namespace LatexProcessing2
 {
     internal class Program
