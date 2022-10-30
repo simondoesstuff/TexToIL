@@ -1,3 +1,12 @@
 ﻿# TeX -> IL Code
 
-*TexToIL* is a parser for math expressions in LaTeX form with support for variables and trancendental functions. Expressions are lexed, parsed, and assembled into native c# expression trees which compile to IL code. Compiled expressions can be executed with differing parameters in rapid succession without reparsing the entire string.
+TexToIL is a compiler for TeX math expressions. They are lexed, parsed, assembled into an AST, and ultimately compiled into a lambda function. The variables in the original expression are used as parameters in the lambda function which can be called with new parameters for free without recompiling the original expression.
+
+Example usage can be seen in [Program.cs](./LatexProcessing2/Program.cs)
+
+---
+
+![Demo Gif](./DemoGif.gif)
+
+(Here we use `+` instead of `\pm` because the lambda function must have a single return value.)
+
